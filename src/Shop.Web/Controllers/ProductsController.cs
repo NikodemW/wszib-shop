@@ -6,24 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Core.Domain;
 using Shop.Web.Models;
 using Shop.Core.Repositories;
+using Shop.Core.Services;
 
 namespace Shop.Web.Controllers
 {
     [Route("products")]
     public class ProductsController : Controller
     {
-        private static readonly List<Product> _products = new List<Product>
+        //private static readonly List<Product> _products = new List<Product>
+        //{
+        //    new Product("Latop", "Electronics",3000),
+        //    new Product("Jeans", "Troursers", 150),
+        //    new Product("Hammer", "Tools", 47)
+        //};
+        private readonly IProductService _productService;
+        public ProductsController(IProductService productService)
         {
-            new Product("Latop", "Electronics",3000),
-            new Product("Jeans", "Troursers", 150),
-            new Product("Hammer", "Tools", 47)
-        };
-
+            _productService = productService;
+        }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var products = _products.Select(p => new ProductViewModel
+            var products = _productService
+                .GetAll()
+                .Select(p => new ProductViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -47,7 +54,7 @@ namespace Shop.Web.Controllers
             {
                 return View(viewModel);
             }
-            _products.Add(new Product(viewModel.Name, viewModel.Category, viewModel.Price));
+            _productService.Add(viewModel.Name, viewModel.Category, viewModel.Price);
             return RedirectToAction(nameof(Index));
         }
     }
