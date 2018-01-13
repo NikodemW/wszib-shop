@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Core.Domain;
 using Shop.Web.Models;
+using Shop.Core.Repositories;
 
 namespace Shop.Web.Controllers
 {
@@ -17,6 +18,8 @@ namespace Shop.Web.Controllers
             new Product("Jeans", "Troursers", 150),
             new Product("Hammer", "Tools", 47)
         };
+
+
         [HttpGet]
         public IActionResult Index()
         {
