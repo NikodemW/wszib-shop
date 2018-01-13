@@ -1,0 +1,14 @@
+﻿@using Shop.Core.Domain
+@model List<Product>
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Products</h1>
+        <ul>
+            @foreach (var product in Model)
+            {
+                <li>@product.Name [@product.Price PLN]</li>
+
+            }
+        </ul>
+    </div>
+</div>
