@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,13 @@ namespace Shop.Web.Models
             new SelectListItem{ Text = "Trousers", Value = "Trousers"}
 
         };
+        public AddOrUpdateProductViewModel()
+        {
+
+        }
+        public AddOrUpdateProductViewModel(ProductDto dto) : base(dto)
+        {
+
+        }
     }
 }
