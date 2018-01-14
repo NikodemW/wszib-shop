@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Web.Models
 {
-    public class AddProductViewModel : ProductViewModel
+    public class AddOrUpdateProductViewModel : ProductViewModel
     {
         public List<SelectListItem> Categories { get; } = new List<SelectListItem>
         {

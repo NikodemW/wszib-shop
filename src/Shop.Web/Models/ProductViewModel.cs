@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Shop.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,5 +29,16 @@ namespace Shop.Web.Models
 
         };
         public Guid Id { get; internal set; }
+        public ProductViewModel()
+        {
+
+        }
+        public ProductViewModel(ProductDto dto)
+        {
+            Id = dto.Id;
+            Name = dto.Name;
+            Category = dto.Category;
+            Price = dto.Price;
+        }
     }
 }
