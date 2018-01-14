@@ -10,6 +10,6 @@ namespace Shop.Core.Repositories
         Product Get(Guid id);
         IEnumerable<Product> GetAll();
         void Add(Product product);
-        void Update(Product existingProduct);
+        void Update(Product product);
     }
 }

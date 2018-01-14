@@ -10,45 +10,44 @@ namespace Shop.Core.Domain
         public string Name { get; private set; }
         public string Category { get; private set; }
         public decimal Price { get; private set; }
+
         public Product(string name, string category, decimal price)
         {
             Id = Guid.NewGuid();
-            Name = name;
-            Category = category;
-            Price = price;
             SetName(name);
-            SetCategor(category);
+            SetCategory(category);
             SetPrice(price);
         }
 
         public void SetName(string name)
         {
-            if(string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Product name is empty.", nameof(name));
             }
-            if(name.Length >100)
+            if (name.Length > 100)
             {
-                throw new ArgumentException($"Product name is too long:'{name.Length}' chars.", nameof(name));
+                throw new ArgumentException($"Product name is too long: '{name.Length}' chars.", nameof(name));
             }
             Name = name;
         }
-        public void SetCategor(string category)
+
+        public void SetCategory(string category)
         {
             if (string.IsNullOrWhiteSpace(category))
             {
-                throw new ArgumentException("Product name is empty.", nameof(category));
+                throw new ArgumentException("Product category is empty.", nameof(category));
             }
-            Category = category; ;
+            Category = category;
         }
+
         public void SetPrice(decimal price)
         {
-            if(price<1 || price>100000)
+            if (price < 1 || price > 100000)
             {
-                throw new ArgumentException($"Product price is invalid:{price}");
+                throw new ArgumentException($"Product price is invalid: {price}.", nameof(price));
             }
             Price = price;
         }
-
     }
 }

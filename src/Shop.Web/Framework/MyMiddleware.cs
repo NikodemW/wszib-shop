@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Framework
@@ -9,6 +7,7 @@ namespace Shop.Web.Framework
     public class MyMiddleware
     {
         private readonly RequestDelegate _next;
+
         public MyMiddleware(RequestDelegate next)
         {
             _next = next;

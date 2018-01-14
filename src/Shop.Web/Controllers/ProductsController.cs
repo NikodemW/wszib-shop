@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Core.Domain;
-using Shop.Web.Models;
+using Shop.Core.DTO;
 using Shop.Core.Repositories;
 using Shop.Core.Services;
-using Shop.Core.DTO;
+using Shop.Web.Models;
+using System;
+using System.Linq;
 
 namespace Shop.Web.Controllers
 {
     [Route("products")]
     public class ProductsController : Controller
     {
-        //private static readonly List<Product> _products = new List<Product>
-        //{
-        //    new Product("Latop", "Electronics",3000),
-        //    new Product("Jeans", "Troursers", 150),
-        //    new Product("Hammer", "Tools", 47)
-        //};
         private readonly IProductService _productService;
+
         public ProductsController(IProductService productService)
         {
             _productService = productService;
@@ -33,40 +26,44 @@ namespace Shop.Web.Controllers
                 .GetAll()
                 .Select(p => new ProductViewModel(p));
 
-           return View(products);
+            return View(products);
         }
+
         [HttpGet("add")]
         public IActionResult Add()
         {
             var viewModel = new AddOrUpdateProductViewModel();
+
             return View(viewModel);
         }
+
         [HttpPost("add")]
         public IActionResult Add(AddOrUpdateProductViewModel viewModel)
-
         {
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
             _productService.Add(viewModel.Name, viewModel.Category, viewModel.Price);
+
             return RedirectToAction(nameof(Index));
         }
+
         [HttpGet("{id}/update")]
         public IActionResult Update(Guid id)
-
         {
             var product = _productService.Get(id);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
             var viewModel = new AddOrUpdateProductViewModel(product);
+
             return View(viewModel);
         }
-        [HttpPost("{id}/update")]
-        public IActionResult Update( AddOrUpdateProductViewModel viewModel)
 
+        [HttpPost("{id}/update")]
+        public IActionResult Update(AddOrUpdateProductViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -79,6 +76,7 @@ namespace Shop.Web.Controllers
                 Category = viewModel.Category,
                 Price = viewModel.Price
             });
+
             return RedirectToAction(nameof(Index));
         }
     }

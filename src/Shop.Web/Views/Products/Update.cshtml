@@ -1,12 +1,12 @@
 ﻿@model AddOrUpdateProductViewModel
 
-
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-md-4 col-lg-3">
         <form asp-action="Update" asp-route-id="@Model.Id" method="post">
-            <input type="Hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Id" />
             @Html.Partial("_AddOrUpdateProduct", Model)
-            <button type="submit" class="btn btn-primary">Update product</button>
+            <button type="submit" class="btn btn-success">Update product</button>
         </form>
     </div>
 </div>
+
