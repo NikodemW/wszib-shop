@@ -19,5 +19,5 @@ namespace Shop.Web.Controllers
         [HttpGet("forbidden")]
         public IActionResult Forbidden()
             => View();
-    }
+    }//wefgqwe
 }
