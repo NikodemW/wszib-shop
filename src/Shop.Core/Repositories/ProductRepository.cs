@@ -22,5 +22,9 @@ namespace Shop.Core.Repositories
         => _products;
         public void Add(Product product)
         => _products.Add(product);
+
+        public void Update(Product product)
+        {
+        }
     }
 }

@@ -42,6 +42,17 @@ namespace Shop.Core.Services
             _productRepository.Add(product);
         }
 
-
+        public void Update(ProductDto product)
+        {
+            var existingProduct = _productRepository.Get(product.Id);
+            if (existingProduct == null)
+            {
+                throw new Exception($"Product was not foind, id: '{product.Id}'.");
+            }
+            existingProduct.SetName(product.Name);
+            existingProduct.SetCategor(product.Category);
+            existingProduct.SetPrice(product.Price);
+            _productRepository.Update(existingProduct);
+        }
     }
 }
