@@ -12,7 +12,8 @@ namespace Shop.Core.Mapper
             {
                 cfg.CreateMap<Product, ProductDto>();
                 cfg.CreateMap<User, UserDto>()
-                .ForMember(m => m.Role, o => o.MapFrom(p => (RoleDto)Enum.Parse(typeof(RoleDto), p.Role.ToString(), true)));
+                .ForMember(m => m.Role, o => o.MapFrom(p => 
+                (RoleDto)Enum.Parse(typeof(RoleDto), p.Role.ToString(), true)));
             }).CreateMapper();
     }
 }

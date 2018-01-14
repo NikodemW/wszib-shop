@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Core.Domain;
 using Shop.Core.DTO;
 using Shop.Core.Repositories;
@@ -10,6 +12,7 @@ using System.Linq;
 namespace Shop.Web.Controllers
 {
     [Route("products")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy ="require-admin")]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
@@ -20,6 +23,7 @@ namespace Shop.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var products = _productService
