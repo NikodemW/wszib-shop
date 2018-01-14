@@ -53,12 +53,18 @@ namespace Shop.Web.Controllers
         }
         [HttpGet("{id}/update")]
         public IActionResult Update(Guid id)
+
         {
+            var product = _productService.Get(id);
+            if(product == null)
+            {
+                return NotFound();
+            }
             var viewModel = new AddOrUpdateProductViewModel();
             return View(viewModel);
         }
-        [HttpPost("{id}/update")]
-        public IActionResult Update(AddOrUpdateProductViewModel viewModel)
+        [HttpPut("{id}/update")]
+        public IActionResult Update(Guid id, AddOrUpdateProductViewModel viewModel)
 
         {
             if (!ModelState.IsValid)

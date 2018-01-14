@@ -15,6 +15,17 @@ namespace Shop.Core.Services
         {
             _productRepository = productRepository;
         }
+        public ProductDto Get(Guid id)
+        {
+            var product = _productRepository.Get(id);
+            return product == null ? null : new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Category = product.Category,
+                Price = product.Price
+            };
+        }
         public IEnumerable<ProductDto> GetAll()
         => _productRepository
             .GetAll()
