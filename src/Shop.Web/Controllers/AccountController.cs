@@ -18,6 +18,7 @@ namespace Shop.Web.Controllers
         {
             _userService = userService;
         }
+
         [HttpGet("login")]
         public IActionResult Login()
             => View();
@@ -37,6 +38,7 @@ namespace Shop.Web.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+
                 return View(viewModel);
             }
             var user = _userService.Get(viewModel.Email);
@@ -64,6 +66,7 @@ namespace Shop.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet("register")]
         public IActionResult Register()
             => View(new RegisterViewModel());
@@ -82,10 +85,11 @@ namespace Shop.Web.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+
                 return View(viewModel);
             }
+
             return RedirectToAction(nameof(Login));
         }
-
     }
 }

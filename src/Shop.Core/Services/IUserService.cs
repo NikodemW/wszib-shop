@@ -1,8 +1,4 @@
-﻿using Shop.Core.Domain;
-using Shop.Core.DTO;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Shop.Core.DTO;
 
 namespace Shop.Core.Services
 {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shop.Core.Domain
 {
@@ -8,6 +6,7 @@ namespace Shop.Core.Domain
     {
         public Guid Id { get; }
         public string Email { get; }
+        //Plain text
         public string Password { get; }
         public Role Role { get; }
 
@@ -18,7 +17,5 @@ namespace Shop.Core.Domain
             Password = password;
             Role = role;
         }
-
-
     }
 }

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shop.Web.Models
 {
@@ -27,7 +26,7 @@ namespace Shop.Web.Models
         [Required]
         public RoleDto Role { get; set; }
 
-        public List<SelectListItem> Roles { get; set; } = Enum.GetValues(typeof(RoleDto))
+        public List<SelectListItem> Roles { get; } = Enum.GetValues(typeof(RoleDto))
             .Cast<RoleDto>()
             .Select(r => new SelectListItem
             {
@@ -35,5 +34,4 @@ namespace Shop.Web.Models
                 Value = r.ToString()
             }).ToList();
     }
-
 }

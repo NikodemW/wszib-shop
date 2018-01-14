@@ -39,7 +39,7 @@ namespace Shop.Web
                     c.ExpireTimeSpan = TimeSpan.FromDays(7);
                 });
             services.AddAuthorization(a => a.AddPolicy("require-admin",
-                p => p.RequireRole(RoleDto.Admin.ToString())));
+                    p => p.RequireRole(RoleDto.Admin.ToString())));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

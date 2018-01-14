@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoMapper;
+using Shop.Core.Domain;
 using Shop.Core.DTO;
 using Shop.Core.Repositories;
-using Shop.Core.Domain;
-using AutoMapper;
+using System;
 
 namespace Shop.Core.Services
 {
@@ -12,7 +10,9 @@ namespace Shop.Core.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+
+        public UserService(IUserRepository userRepository,
+            IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -21,6 +21,7 @@ namespace Shop.Core.Services
         public UserDto Get(string email)
         {
             var user = _userRepository.Get(email);
+
             return user == null ? null : _mapper.Map<UserDto>(user);
         }
 
@@ -29,23 +30,23 @@ namespace Shop.Core.Services
             var user = _userRepository.Get(email);
             if (user == null)
             {
-                throw new Exception($"User '{email}' was not found");
+                throw new Exception($"User '{email}' was not found.");
             }
-            if(user.Password != password)
+            if (user.Password != password)
             {
-                throw new Exception($"Inwalid password");
+                throw new Exception("Invalid password.");
             }
         }
 
-            public void Register(string email, string password, RoleDto role)
+        public void Register(string email, string password, RoleDto role)
         {
             var user = _userRepository.Get(email);
-            if(user != null)
+            if (user != null)
             {
-                throw new Exception($"User '{email}' already exist");
+                throw new Exception($"User '{email}' already exists.");
             }
-            var userRole = Enum.Parse(typeof(Role), role.ToString(), true);
-            user = new Domain.User(email, password);
+            var userRole = (Role)Enum.Parse(typeof(Role), role.ToString(), true);
+            user = new User(email, password, userRole);
             _userRepository.Add(user);
         }
     }
