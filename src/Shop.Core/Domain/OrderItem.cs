@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shop.Core.Domain
 {
-        public class OrderItem
+    public class OrderItem
     {
         public Guid ProductId { get; }
         public string ProductName { get; }
-        public int Quantity { get;}
-        public decimal UnitPrice { get;  }
+        public int Quantity { get; }
+        public decimal UnitPrice { get; }
         public decimal TotalPrice { get; }
 
         public OrderItem(CartItem item)

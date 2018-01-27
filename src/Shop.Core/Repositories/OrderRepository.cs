@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Shop.Core.Domain;
 using System.Linq;
+using Shop.Core.Domain;
 
 namespace Shop.Core.Repositories
 {
@@ -12,12 +11,11 @@ namespace Shop.Core.Repositories
 
         public void Add(Order order)
             => _orders.Add(order);
+
         public Order Get(Guid id)
             => _orders.SingleOrDefault(x => x.Id == id);
+
         public IEnumerable<Order> Browse(Guid userId)
-            => _orders.Where(x => x.Id == userId);
-        
-
-
+            => _orders.Where(x => x.UserId == userId);
     }
 }

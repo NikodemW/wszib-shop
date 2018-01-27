@@ -1,43 +1,37 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Shop.Core.Services;
 using Shop.Web.Framework;
 using Shop.Web.Models;
 using System;
-using System.Linq;
 
 namespace Shop.Web.Controllers
 {
-    
     [Route("cart")]
     [CookieAuth]
     public class CartController : BaseController
     {
-        private readonly ICartService _catrtService;
+        private readonly ICartService _cartService;
         private readonly IMapper _mapper;
-
 
         public CartController(ICartService cartService, IMapper mapper)
         {
-            _catrtService = cartService;
+            _cartService = cartService;
             _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var cart = _catrtService.Get(CurrentUserId);
+            var cart = _cartService.Get(CurrentUserId);
             var viewModel = _mapper.Map<CartViewModel>(cart);
+
             return View(viewModel);
         }
 
         [HttpPost("items/{productId}/add")]
         public IActionResult Add(Guid productId)
         {
-            _catrtService.AddProduct(CurrentUserId, productId);
-   
+            _cartService.AddProduct(CurrentUserId, productId);
 
             //return Ok();
             return RedirectToAction("Index", "Products");

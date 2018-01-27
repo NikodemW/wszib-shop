@@ -12,8 +12,9 @@ namespace Shop.Core.Repositories
             new User("user@shop.com", "secret"),
             new User("admin@shop.com", "secret", role: Role.Admin)
         };
+
         public User Get(Guid id)
-        => _users.SingleOrDefault(x => x.Id == id);
+            => _users.SingleOrDefault(x => x.Id == id);
 
         public User Get(string email)
             => _users.SingleOrDefault(x => 
@@ -21,7 +22,5 @@ namespace Shop.Core.Repositories
 
         public void Add(User user)
             => _users.Add(user);
-
-
     }
 }

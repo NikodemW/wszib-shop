@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Shop.Core.Domain
 {
-        public class Order
+    public class Order
     {
         public Guid Id { get; }
         public Guid UserId { get; }
@@ -15,7 +14,7 @@ namespace Shop.Core.Domain
 
         public Order(User user, Cart cart)
         {
-            if(cart.IsEmpty)
+            if (cart.IsEmpty)
             {
                 throw new Exception("Can not create an order for empty cart.");
             }

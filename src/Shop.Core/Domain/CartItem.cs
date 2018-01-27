@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shop.Core.Domain
 {
@@ -19,7 +17,7 @@ namespace Shop.Core.Domain
             Quantity = 1;
             UnitPrice = product.Price;
         }
-
+        
         public void IncreaseQuantity()
         {
             Quantity++;
@@ -27,7 +25,7 @@ namespace Shop.Core.Domain
 
         public void DecreaseQuantity()
         {
-            if(Quantity == 1)
+            if (Quantity == 1)
             {
                 throw new Exception("Quantity can not be lower than 1.");
             }

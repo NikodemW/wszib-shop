@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Web.Framework;
-using AutoMapper;
 using Shop.Core.Services;
-using Shop.Core.DTO;
+using Shop.Web.Framework;
+using Shop.Web.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Shop.Web.Controllers
 {
@@ -15,19 +13,22 @@ namespace Shop.Web.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+
         public OrdersController(IOrderService orderService, IMapper mapper)
         {
             _orderService = orderService;
             _mapper = mapper;
         }
+
         [HttpGet("orders")]
         public IActionResult Index()
         {
             var orders = _orderService.Browse(CurrentUserId);
-            var viewModels = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            var viewModels = _mapper.Map<IEnumerable<OrderViewModel>>(orders);
 
             return View(viewModels);
         }
+
         [HttpPost("orders")]
         public IActionResult Create()
         {
@@ -37,7 +38,7 @@ namespace Shop.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest();
             }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Shop.Core.DTO;
-using Shop.Core.Repositories;
-using AutoMapper;
 using System.Linq;
-using Shop.Core.Extensions;
+using AutoMapper;
 using Shop.Core.Domain;
+using Shop.Core.DTO;
+using Shop.Core.Extensions;
+using Shop.Core.Repositories;
 
 namespace Shop.Core.Services
 {
@@ -16,22 +15,27 @@ namespace Shop.Core.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly ICartManager _cartManager;
-        public OrderService(IOrderRepository orderRepository,IUserRepository userRepository, IMapper mapper, ICartManager cartManager)
+
+        public OrderService(IOrderRepository orderRepository,
+            IUserRepository userRepository,
+            IMapper mapper, ICartManager cartManager)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _cartManager = cartManager;
         }
+
         public void Create(Guid userId)
         {
             var user = _userRepository.Get(userId)
-                .FailIfNull($"User with id:'{userId}'was not found.");
-
+                .FailIfNull($"User with id: '{userId}' was not found.");
             var cart = _cartManager.Get(userId)
-                .FailIfNull($"Cart was not found for user with id:'{userId}'.");
+                .FailIfNull($"Cart was not found for user with id: '{userId}'.");
             var order = new Order(user, cart);
             _orderRepository.Add(order);
+            cart.Clear();
+            _cartManager.Set(userId, cart);
         }
 
         public OrderDto Get(Guid id)
@@ -40,9 +44,9 @@ namespace Shop.Core.Services
 
             return order == null ? null : _mapper.Map<OrderDto>(order);
         }
+
         public IEnumerable<OrderDto> Browse(Guid userId)
             => _orderRepository.Browse(userId)
-                            .Select(x => _mapper.Map<OrderDto>(x));
-
+                               .Select(x => _mapper.Map<OrderDto>(x));
     }
 }

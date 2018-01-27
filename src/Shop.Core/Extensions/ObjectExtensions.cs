@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shop.Core.Extensions
 {
     public static class ObjectExtensions
     {
-        public static T FailIfNull<T>(this T value, string exeptionMessage) where T : class
+        public static T FailIfNull<T>(this T value, string exceptionMessage) where T : class
         {
-            if(value == null)
+            if (value == null)
             {
-                throw new Exception(exeptionMessage);
+                throw new Exception(exceptionMessage);
             }
+
             return value;
         }
-        public static void FailIfExist<T>(this T value, string exeptionMessage) where T: class
+
+        public static void FailIfExists<T>(this T value, string exceptionMessage) where T : class
         {
-            if(value != null)
+            if (value != null)
             {
-                throw new Exception(exeptionMessage);
+                throw new Exception(exceptionMessage);
             }
         }
     }

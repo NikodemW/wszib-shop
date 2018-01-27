@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Shop.Core.Domain
 {
     public class Cart
     {
         private ISet<CartItem> _items = new HashSet<CartItem>();
-
         public IEnumerable<CartItem> Items => _items;
         public bool IsEmpty => !Items.Any();
         public decimal TotalPrice => Items.Sum(i => i.TotalPrice);
@@ -25,6 +23,7 @@ namespace Shop.Core.Domain
             }
             item.IncreaseQuantity();
         }
+
         public void DeleteProduct(Guid productId)
         {
             var item = _items.SingleOrDefault(x => x.ProductId == productId);
@@ -38,9 +37,7 @@ namespace Shop.Core.Domain
 
                 return;
             }
-            
             item.DecreaseQuantity();
-            
         }
 
         public void Clear() => _items.Clear();

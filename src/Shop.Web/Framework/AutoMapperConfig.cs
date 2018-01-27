@@ -4,10 +4,7 @@ using Shop.Core.DTO;
 using Shop.Web.Models;
 using System;
 
-
-
 namespace Shop.Web.Framework
-
 {
     public static class AutoMapperConfig
     {
@@ -18,12 +15,10 @@ namespace Shop.Web.Framework
                 cfg.CreateMap<CartItem, CartItemDto>();
                 cfg.CreateMap<CartDto, CartViewModel>();
                 cfg.CreateMap<CartItemDto, CartItemViewModel>();
-            
                 cfg.CreateMap<Order, OrderDto>();
                 cfg.CreateMap<OrderItem, OrderItemDto>();
                 cfg.CreateMap<OrderDto, OrderViewModel>();
                 cfg.CreateMap<OrderItemDto, OrderItemViewModel>();
-
                 cfg.CreateMap<Product, ProductDto>();
                 cfg.CreateMap<User, UserDto>()
                     .ForMember(m => m.Role, o => o.MapFrom(p => 

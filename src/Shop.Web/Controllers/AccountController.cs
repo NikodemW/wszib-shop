@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Shop.Core.Services;
 using Shop.Web.Models;
 using System;
@@ -16,7 +15,7 @@ namespace Shop.Web.Controllers
         private readonly IUserService _userService;
         private readonly ICartService _cartService;
 
-        public AccountController(IUserService userService, ICartService cartService )
+        public AccountController(IUserService userService, ICartService cartService)
         {
             _userService = userService;
             _cartService = cartService;
@@ -47,7 +46,7 @@ namespace Shop.Web.Controllers
             var user = _userService.Get(viewModel.Email);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -67,7 +66,13 @@ namespace Shop.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
             await HttpContext.SignOutAsync();
-            _cartService.Delete(CurrentUserId);
+            try
+            {
+                _cartService.Delete(CurrentUserId);
+            }
+            catch
+            {
+            }
 
             return RedirectToAction("Index", "Home");
         }
