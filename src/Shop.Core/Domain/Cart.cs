@@ -41,5 +41,7 @@ namespace Shop.Core.Domain
             item.DecreaseQuantity();
             
         }
+
+        public void Clear() => _items.Clear();
     }
 }

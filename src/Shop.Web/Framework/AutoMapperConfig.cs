@@ -3,13 +3,19 @@ using Shop.Core.Domain;
 using Shop.Core.DTO;
 using System;
 
-namespace Shop.Core.Mapper
+
+
+namespace Shop.Web.Framework
+
 {
     public static class AutoMapperConfig
     {
         public static IMapper GetMapper()
             => new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<CartItem, CartDto>();
+                cfg.CreateMap<CartItem, CartItemDto>();
+                cfg.CreateMap<CartDto, CartItemViewModel>();
                 cfg.CreateMap<Product, ProductDto>();
                 cfg.CreateMap<User, UserDto>()
                     .ForMember(m => m.Role, o => o.MapFrom(p => 
