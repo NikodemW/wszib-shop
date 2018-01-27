@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Shop.Core.Services;
+using Shop.Web.Framework;
 using Shop.Web.Models;
 using System;
 using System.Linq;
 
 namespace Shop.Web.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    
     [Route("cart")]
+    [CookieAuth]
     public class CartController : BaseController
     {
         private readonly ICartService _catrtService;
