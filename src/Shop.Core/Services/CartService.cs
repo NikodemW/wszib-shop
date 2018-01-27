@@ -14,20 +14,20 @@ namespace Shop.Core.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IMemoryCache _cache;
+        private readonly ICartManager _cartManager;
         private readonly IMapper _mapper;
-        public CartService(IUserRepository userRepository, IProductRepository productRepository, IMemoryCache cache, IMapper mapper)
+        public CartService(IUserRepository userRepository, IProductRepository productRepository, ICartManager cartManager, IMapper mapper)
         {
             _userRepository = userRepository;
             _productRepository = productRepository;
-            _cache = cache;
+            _cartManager = cartManager;
             _mapper = mapper;
 
 
         }
         public CartDto Get(Guid userId)
         {
-            var cart = GetCart(userId);
+            var cart = _cartManager.Get(userId);
 
             return cart == null ? null : _mapper.Map<CartDto>(cart);
         }
@@ -51,30 +51,28 @@ namespace Shop.Core.Services
 
         public void Create(Guid userId)
         {
-            GetCart(userId).FailIfExist($" Cart already exist for user with id: '{userId}'.");
+            _cartManager.Get(userId).FailIfExist($" Cart already exist for user with id: '{userId}'.");
 
-            SetCart(userId, new Cart());
+            _cartManager.Set(userId, new Cart());
         }
 
         public void Delete(Guid userId)
         {
             GetCartOrFail(userId);
-            _cache.Remove(GetCartKey(userId));
+            _cartManager.Delete(userId);
         }
 
         private void ExecuteOnCart(Guid userId, Action<Cart> action)
         {
             var cart = GetCartOrFail(userId);
             action(cart);
-            SetCart(userId, cart);
+           _cartManager.Set(userId, cart);
         }
 
         private Cart GetCartOrFail(Guid userId)
-            => GetCart(userId).FailIfNull($" Cart was not found for user with id: '{userId}'.");
+            => _cartManager.Get(userId).FailIfNull($" Cart was not found for user with id: '{userId}'.");
 
 
-        private Cart GetCart(Guid userId) => _cache.Get<Cart>(GetCartKey(userId));
-        private void SetCart(Guid userId, Cart cart) => _cache.Set(GetCartKey(userId), cart);
-        private string GetCartKey(Guid userId) => $"{userId}:cart";
+
     }
 }

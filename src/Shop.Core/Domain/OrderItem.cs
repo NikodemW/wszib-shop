@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shop.Core.Domain
 {
-    class OrderItem
+        public class OrderItem
     {
         public Guid ProductId { get; }
         public string ProductName { get; }

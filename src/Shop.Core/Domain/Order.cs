@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Shop.Core.Domain
 {
-    class Order
+        public class Order
     {
+        public Guid Id { get; }
         public Guid UserId { get; }
         public IEnumerable<OrderItem> Items { get; }
         public decimal TotalPrice { get; }
@@ -14,6 +15,11 @@ namespace Shop.Core.Domain
 
         public Order(User user, Cart cart)
         {
+            if(cart.IsEmpty)
+            {
+                throw new Exception("Can not create an order for empty cart.");
+            }
+            Id = Guid.NewGuid();
             UserId = user.Id;
             Items = cart.Items.Select(x => new OrderItem(x));
             TotalPrice = cart.TotalPrice;
