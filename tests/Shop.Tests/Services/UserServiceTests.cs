@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AutoFixture;
+using AutoMapper;
 using FluentAssertions;
 using Moq;
 using Shop.Core.Domain;
@@ -20,21 +21,19 @@ namespace Shop.Tests.Services
             //Mock
             var userRepositoryMock = new Mock<IUserRepository>();
             var mapperMock = new Mock<IMapper>();
-            
-            var user = new User("test@test.com", "secret");
+            var fixture = new Fixture();
+            var user = fixture.Create<User>();
+            var userDto = fixture.Create<UserDto>();
+
             userRepositoryMock.Setup(x => x.Get(user.Email)).Returns(user);
-            mapperMock.Setup(x => x.Map<UserDto>(user)).Returns(new UserDto
-            {
-                Id = user.Id,
-                Email = user.Email
-            });
+            mapperMock.Setup(x => x.Map<UserDto>(user)).Returns(userDto);
+    
 
             IUserService userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
 
-            var userDto = userService.Get(user.Email);
+            var expectedUserDto = userService.Get(user.Email);
 
-            userDto.Should().NotBeNull();
-            userDto.Id.ShouldBeEquivalentTo(user.Id);
+            expectedUserDto.Should().NotBeNull();
             userRepositoryMock.Verify(x => x.Get(user.Email), Times.Once);
             mapperMock.Verify(x => x.Map<UserDto>(user), Times.Once);
         }
