@@ -15,13 +15,21 @@ namespace Shop.Tests.Services
 {
     public class UserServiceTests
     {
+        Mock<IUserRepository> userRepositoryMock;
+        Mock<IMapper> mapperMock;
+        Fixture fixture;
+        public UserServiceTests()
+        {
+            userRepositoryMock = new Mock<IUserRepository>();
+            mapperMock = new Mock<IMapper>();
+            fixture = new Fixture();
+
+        }
         [Fact]
         public void get_should_return_user()
         {
             //Mock
-            var userRepositoryMock = new Mock<IUserRepository>();
-            var mapperMock = new Mock<IMapper>();
-            var fixture = new Fixture();
+
             var user = fixture.Create<User>();
             var userDto = fixture.Create<UserDto>();
 
@@ -36,6 +44,39 @@ namespace Shop.Tests.Services
             expectedUserDto.Should().NotBeNull();
             userRepositoryMock.Verify(x => x.Get(user.Email), Times.Once);
             mapperMock.Verify(x => x.Map<UserDto>(user), Times.Once);
+        }
+        [Fact]
+        public void login_should_fail_for_non_existing_user()
+        {
+            //Arrange
+            var user = fixture.Create<User>();
+
+            IUserService userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+
+            
+            //Act & Assert
+            Action login = () => userService.Login(user.Email, user.Password);
+
+            var exceptionAssertion = login.ShouldThrow<Exception>();
+            exceptionAssertion.And.Message.Should().BeEquivalentTo($"User '{user.Email}' was not found.");
+
+
+
+        }
+        [Fact]
+        public void login_should_fail_for_invalid_password()
+        {
+            //Arrange
+            var user = fixture.Create<User>();
+            userRepositoryMock.Setup(x => x.Get(user.Email)).Returns(user);
+            IUserService userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+
+
+            //Act & Assert
+            Action login = () => userService.Login(user.Email, "test");
+
+            var exceptionAssertion = login.ShouldThrow<Exception>();
+            exceptionAssertion.And.Message.Should().BeEquivalentTo("Invalid password.");
         }
     }
 }
