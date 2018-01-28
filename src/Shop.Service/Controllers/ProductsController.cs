@@ -7,7 +7,7 @@ using Shop.Core.Services;
 
 namespace Shop.Service.Controllers
 {
-    [Route("[controller")]
+    [Route("[controller]")]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
