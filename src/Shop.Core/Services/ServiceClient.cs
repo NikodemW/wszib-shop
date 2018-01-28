@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Shop.Core.DTO;
-using Microsoft.Extensions.Options;
 using Shop.Core.Options;
-using System.Text;
 
 namespace Shop.Core.Services
 {
@@ -15,16 +15,13 @@ namespace Shop.Core.Services
     {
         private readonly HttpClient _httpClient;
 
-        public ServiceClient(IOptions<ServiceClientOptions>options)
+        public ServiceClient(IOptions<ServiceClientOptions> options)
         {
             _httpClient = new HttpClient();
-            //_httpClient.BaseAddress = new Uri("http://localhost:3580");
             _httpClient.BaseAddress = new Uri(options.Value.Url);
             _httpClient.DefaultRequestHeaders.Remove("Accept");
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
-
-
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
@@ -38,6 +35,7 @@ namespace Shop.Core.Services
 
             return products;
         }
+
         public async Task AddProductAsync(string name, string category, decimal price)
         {
             var product = new ProductDto
@@ -46,15 +44,14 @@ namespace Shop.Core.Services
                 Category = category,
                 Price = price
             };
-
             var payload = JsonConvert.SerializeObject(product);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("products", content);
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 return;
             }
-            throw new Exception($"Could not create a product.{response.ReasonPhrase}");
+            throw new Exception($"Could not create a product. {response.ReasonPhrase}");
         }
     }
 }
