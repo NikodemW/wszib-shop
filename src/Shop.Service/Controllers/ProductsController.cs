@@ -26,7 +26,7 @@ namespace Shop.Service.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
-            var product = _productService.Get(id);
+            var product = _productService.GetAll(id).ToList();
             if (product == null)
             {
                 return NotFound();
