@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Shop.Core.DTO;
 using Microsoft.Extensions.Options;
 using Shop.Core.Options;
+using System.Text;
 
 namespace Shop.Core.Services
 {
@@ -23,6 +24,8 @@ namespace Shop.Core.Services
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
+
+
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             var response = await _httpClient.GetAsync("products");
@@ -34,6 +37,24 @@ namespace Shop.Core.Services
             var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(content);
 
             return products;
+        }
+        public async Task AddProductAsync(string name, string category, decimal price)
+        {
+            var product = new ProductDto
+            {
+                Name = name,
+                Category = category,
+                Price = price
+            };
+
+            var payload = JsonConvert.SerializeObject(product);
+            var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("products", content);
+            if(response.IsSuccessStatusCode)
+            {
+                return;
+            }
+            throw new Exception($"Could not create a product.{response.ReasonPhrase}");
         }
     }
 }
